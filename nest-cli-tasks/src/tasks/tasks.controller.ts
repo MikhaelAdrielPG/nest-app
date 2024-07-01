@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateTaskDto } from './dtos/create-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -7,7 +8,7 @@ export class TasksController {
         return 'This action returns all tasks';
     }
     @Post()
-    createTask(@Body() body: any){
+    createTask(@Body() body: CreateTaskDto){
         return body;
     }
     @Get('/:id')
