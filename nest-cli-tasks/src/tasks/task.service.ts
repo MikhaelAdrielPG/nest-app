@@ -1,6 +1,6 @@
 import { TasksRepository } from "./task.repository";
 
-export class tasksService {
+export class TasksService {
     tasksRepo: TasksRepository;
 
     constructor() {
