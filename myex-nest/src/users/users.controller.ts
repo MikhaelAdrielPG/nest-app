@@ -16,6 +16,7 @@ import { Serialize } from 'src/items/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 
 @Controller('users')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -30,7 +31,6 @@ export class UsersController {
     return this.usersService.findOneBy(parseInt(id));
   }
 
-  @Serialize(UserDto)
   @Get()
   findAllUsers(@Query('email') email: string) {
     return this.usersService.find(email);
