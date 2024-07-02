@@ -9,8 +9,12 @@ export class UsersService {
         @InjectRepository(User) private userRepository: Repository<User>,
     ){}
 
-    find() {
-        return this.userRepository.find();
+    find(email: string) {
+        return this.userRepository.find({
+            where: {
+                email,
+            }
+        });
     }
 
     create(name: string, email: string, password: string){
