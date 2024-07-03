@@ -1,38 +1,40 @@
 import {
+  Body,
   Controller,
   Post,
-  Body,
   Get,
+  Patch,
+  Delete,
   Param,
   Query,
-  Delete,
-  Patch,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Serialize } from 'src/items/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { User } from './user.entity';
+import { Serialize } from 'src/items/interceptors/serialize.interceptor';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorators';
 
 @Controller('users')
 @Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @Get()
+  findAllUsers(@Query('email') email: string) {
+    return this.usersService.find(email);
+  }
+
   @Post()
   createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body.name, body.email, body.password);
+    return this.usersService.create(body.name, body.email, body.password);
   }
 
   @Serialize(UserDto)
   @Get('/:id')
   findUser(@Param('id') id: string) {
     return this.usersService.findOneBy(parseInt(id));
-  }
-
-  @Get()
-  findAllUsers(@Query('email') email: string) {
-    return this.usersService.find(email);
   }
 
   @Patch('/:id')
@@ -43,5 +45,10 @@ export class UsersController {
   @Delete('/:id')
   removeUser(@Param('id') id: string) {
     return this.usersService.remove(parseInt(id));
+  }
+
+  @Get('/auth/current-user')
+  currentUser(@CurrentUser() user: User) {
+    return user;
   }
 }
