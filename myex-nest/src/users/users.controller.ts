@@ -8,6 +8,7 @@ import {
   Delete,
   Patch,
   UseInterceptors,
+  Session,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
@@ -24,6 +25,16 @@ export class UsersController {
     private usersService: UsersService,
     private authService: AuthService,
   ) {}
+
+  @Get('/pet/:pet')
+  setPet(@Param('pet') pet: string, @Session() session: any) {
+    session.pet = pet;
+  }
+
+  @Get('/pet')
+  getPet(@Session() session: any) {
+    return session.pet;
+  }
 
   @Post()
   createUser(@Body() body: CreateUserDto) {
