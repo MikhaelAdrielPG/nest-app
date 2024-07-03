@@ -7,12 +7,14 @@ import {
   Delete,
   Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/items/interceptors/serialize.interceptor';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorators';
 
@@ -48,6 +50,7 @@ export class UsersController {
   }
 
   @Get('/auth/current-user')
+  @UseGuards(AuthGuard)
   currentUser(@CurrentUser() user: User) {
     return user;
   }
