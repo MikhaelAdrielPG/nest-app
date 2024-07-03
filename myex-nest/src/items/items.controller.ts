@@ -12,6 +12,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../users/user.entity';
 import { ItemDto } from './dtos/item.dto';
 import { ApproveItemDto } from './dtos/approve-item.dto';
+import { AdminGuard } from '../guards/admin.guard';
 import { Serialize } from './interceptors/serialize.interceptor';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorators';
 
@@ -27,6 +28,7 @@ export class ItemsController {
   }
 
   @Patch('/:id')
+  @UseGuards(AdminGuard)
   approveItem(@Param('id') id: string, @Body() body: ApproveItemDto) {
     return this.itemService.approveItem(parseInt(id), body.approved);
   }
