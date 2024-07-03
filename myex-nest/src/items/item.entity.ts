@@ -1,22 +1,26 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from '../users/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Item {
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column()
-    name: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    description: string;
+  @Column()
+  name: string;
 
-    @Column()
-    price: number;
+  @Column()
+  description: string;
 
-    @Column()
-    location: string;
+  @Column()
+  price: number;
 
-    @Column()
-    category: string;
+  @Column()
+  location: string;
+
+  @Column()
+  category: string;
+
+  @ManyToOne(() => User, (user) => user.items)
+  user: User;
 }
