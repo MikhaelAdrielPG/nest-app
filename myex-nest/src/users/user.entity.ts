@@ -1,11 +1,13 @@
 import { Exclude } from 'class-transformer';
+import { Item } from '../items/item.entity';
 import {
   AfterInsert,
-  AfterRemove,
   AfterUpdate,
-  Column,
+  AfterRemove,
   Entity,
+  Column,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -23,6 +25,12 @@ export class User {
   @Exclude()
   password: string;
 
+  @Column({ default: true })
+  admin: boolean;
+
+  @OneToMany(() => Item, (item) => item.user)
+  items: Item[];
+
   @AfterInsert()
   logInsert() {
     console.log('Inserted User with id: ' + this.id);
@@ -35,6 +43,6 @@ export class User {
 
   @AfterRemove()
   logRemove() {
-    console.log('Remove User with id: ' + this.id);
+    console.log('Removed User with id: ' + this.id);
   }
 }
